@@ -1,16 +1,19 @@
-CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra -pthread
-LDFLAGS = -lws2_32 -static -mconsole
+CXX      = g++
+CXXFLAGS = -std=c++11 -pthread
+LDFLAGS  = -lws2_32
+RM       = rm -f
 
-all: server client
+TARGETS = server.exe client.exe
 
-server: server.cpp common.h
-	$(CXX) $(CXXFLAGS) server.cpp -o server.exe $(LDFLAGS)
+all: $(TARGETS)
 
-client: client.cpp common.h
-	$(CXX) $(CXXFLAGS) client.cpp -o client.exe $(LDFLAGS)
+server.exe: server.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
+client.exe: client.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-	rm -f *.exe
+	$(RM) $(TARGETS)
 
 .PHONY: all clean
